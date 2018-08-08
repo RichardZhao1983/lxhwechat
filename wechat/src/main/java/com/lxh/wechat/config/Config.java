@@ -13,14 +13,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Config {
 
-    @Bean
-    public HttpJsonRequestService getHttpJsonRequestService(){
-        return new HttpJsonRequestServiceImpl();
-    }
-
-    @Bean
-    public WeChatAPIService getWeChatAPIService(){
-        return new WeChatAPIServiceImpl();
-    }
+//    @Bean
+//    public HttpJsonRequestService getHttpJsonRequestService(){
+//        return new HttpJsonRequestServiceImpl();
+//    }
+//
+//    @Bean
+//    public WeChatAPIService getWeChatAPIService(){
+//        return new WeChatAPIServiceImpl();
+//    }
 
 }

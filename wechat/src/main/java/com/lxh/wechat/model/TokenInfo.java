@@ -1,7 +1,5 @@
 package com.lxh.wechat.model;
 
-import org.springframework.context.annotation.Bean;
-
 import java.util.Date;
 
 

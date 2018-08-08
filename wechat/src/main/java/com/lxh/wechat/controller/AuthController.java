@@ -1,22 +1,21 @@
 package com.lxh.wechat.controller;
 
-import com.lxh.wechat.solmanoa2.LocalSamlTokenFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
-import com.lxh.wechat.solmanoa2.OAuth2SAML2AccessToken;
-import org.junit.Assert;
-import org.opensaml.xml.ConfigurationException;
+//import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.InputStream;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Properties;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.alibaba.fastjson.JSONObject;
+import com.lxh.wechat.solmanoa2.test.LocalSamlTokenFactory;
+import com.lxh.wechat.solmanoa2.test.OAuth2SAML2AccessToken;
+import com.lxh.wechat.util.HttpClientUtils;
 
 @RestController
 public class AuthController {
@@ -25,8 +24,8 @@ public class AuthController {
 	static Properties configurationProperties;
 	static LocalSamlTokenFactory localSAMLTokenFactory;
 
-	public AuthController()  {
-		//initialization saml properties
+	public AuthController() {
+		// initialization saml properties
 		configurationProperties = new Properties();
 		try {
 			System.out.println(getClass());
@@ -34,24 +33,73 @@ public class AuthController {
 			configurationProperties.load(in);
 			localSAMLTokenFactory = (LocalSamlTokenFactory) LocalSamlTokenFactory.getInstance(configurationProperties);
 			LOGGER.info(String.valueOf(localSAMLTokenFactory));
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
+	@GetMapping("/solmanAccessToken")
+	public String getSolmanAccessToken(@RequestParam("code") String code) throws IOException {
+		// @RequestParam("corpId") String corpId, @RequestParam("code") String
+		// @RequestParam("scope") String scope,
+		String corpId = "wx8f5ad82327627866";
+	    String scope = "snsapi_base";
+	    String screct = "dPROB_f1sk0nZPfXOan6rjEMbDTDNld-R3oLjKQ_p_8";
+	    String agentId = "11";
+	    
+		// getWechatCode
+		// getWechatAccess
+		// getwechatUserInfo
+		// getSolmanUserIdByWeChatUserId
+		// oAuthService.getAccessToken
 
+		// UserInfo userInfo = weChatAPIService.getUserInfo(code, corpId);
+		// String solmanUserId =
+		// userMappingODataService.getSolmanUserIdByWeChatUserId(userInfo.getUserId());
+		// TokenInfo accessToken = oAuthService.getAccessToken(solmanUserId,
+		// scope);
+		JSONObject result = new JSONObject();
 
-	@GetMapping("/weChatLogon")
-	public void weChatUserlogon(HttpServletResponse response) throws IOException {
-		//getWechatCode
-		//getWechatAccess
-		//getwechatUserIdByCode
-		//Odata -> getSolmanUID
-		//getAccessToken
-		response.sendRedirect("index");
+		// result.put("user_id", solmanUserId);
+		result.put("access_token", "test_access_token");
+		// result.put("expires_in", accessToken.getExpireIn());
+		return result.toString();
+
+	}
+	
+	
+	@GetMapping("/getAccessTokenByCode")
+	public String getAccessTokenByCode() throws IOException {
+		// @RequestParam("corpId") String corpId, @RequestParam("code") String
+		// code,
+		// @RequestParam("scope") String scope,
+		// getWechatCode
+		// getWechatAccess
+		// getwechatUserInfo
+		// getSolmanUserIdByWeChatUserId
+		// oAuthService.getAccessToken
+
+		// UserInfo userInfo = weChatAPIService.getUserInfo(code, corpId);
+		// String solmanUserId =
+		// userMappingODataService.getSolmanUserIdByWeChatUserId(userInfo.getUserId());
+		// TokenInfo accessToken = oAuthService.getAccessToken(solmanUserId,
+		// scope);
+		JSONObject result = new JSONObject();
+
+		// result.put("user_id", solmanUserId);
+		result.put("access_token", "test_access_token");
+		// result.put("expires_in", accessToken.getExpireIn());
+		return result.toString();
+
 	}
 
-	public static void main(String[] args){
+	@RequestMapping("/testHttpService")
+	public String testService() throws IOException {
+		JSONObject result = HttpClientUtils.httpGet("http://baike.baidu.com/api/openapi/BaikeLemmaCardApi?scope=103&format=json&appid=379020&bk_key=关键字&bk_length=600");
+		return result.toJSONString();
+	}
+
+	public static void main(String[] args) {
 		AuthController test = new AuthController();
 		try {
 			testGetAT2();
@@ -72,7 +120,5 @@ public class AuthController {
 			ex.printStackTrace();
 		}
 	}
-
-
 
 }

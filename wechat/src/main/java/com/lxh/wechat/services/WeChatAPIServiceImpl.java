@@ -1,14 +1,14 @@
 package com.lxh.wechat.services;
 
-import com.lxh.wechat.model.TokenInfo;
-import com.lxh.wechat.model.UserInfo;
-import com.lxh.wechat.util.Util;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.lxh.wechat.model.UserInfo;
+import com.lxh.wechat.util.Util;
 
+@Service
 public class WeChatAPIServiceImpl implements WeChatAPIService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(WeChatAPIServiceImpl.class);
 
@@ -42,6 +42,12 @@ public class WeChatAPIServiceImpl implements WeChatAPIService {
 			throw new WeChatAPIException("Failed to get userInfo: " + userInfo.getErrmsg());
 		}
 		return userInfo;
+	}
+
+	@Override
+	public String getWeChatCode() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 //	@Override

@@ -26,6 +26,8 @@ public interface WeChatAPIService {
 	 * @throws WeChatAPIException
 	 */
 	UserInfo getUserInfo(String code, String corpId) throws WeChatAPIException;
+	
+	public String getWeChatCode();
 
 
 
