@@ -1,4 +1,4 @@
-package com.lxh.wechat.model;
+package com.lxh.wechat.wechatapi.model;
 
 import java.util.Date;
 

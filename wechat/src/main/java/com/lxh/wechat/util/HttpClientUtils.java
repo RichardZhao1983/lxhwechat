@@ -1,8 +1,11 @@
 package com.lxh.wechat.util;
 
 import java.io.IOException;
+import java.util.Map;
 
+import org.apache.commons.httpclient.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -107,6 +110,30 @@ public class HttpClientUtils {
 			request.releaseConnection();
 		}
 		return jsonResult;
+	}
+
+	public static HttpResponse httpGetResponse(String url, Map<String, String> headers) {
+		CloseableHttpClient client = HttpClients.createDefault();
+
+		HttpGet request = new HttpGet(url);
+		for (String name : headers.keySet()) {
+			request.setHeader(name, headers.get(name));
+		}
+		request.setConfig(requestConfig);
+		CloseableHttpResponse response = null;
+		try {
+			response = client.execute(request);
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				return response;
+			} else {
+				logger.error("get request fail:" + url);
+			}
+		} catch (IOException e) {
+			logger.error("get request fail:" + url, e);
+		} finally {
+			request.releaseConnection();
+		}
+		return response;
 	}
 
 }

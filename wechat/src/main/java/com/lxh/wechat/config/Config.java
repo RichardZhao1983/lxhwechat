@@ -1,11 +1,12 @@
 package com.lxh.wechat.config;
 
-import com.lxh.wechat.services.HttpJsonRequestService;
-import com.lxh.wechat.services.HttpJsonRequestServiceImpl;
-import com.lxh.wechat.services.WeChatAPIService;
-import com.lxh.wechat.services.WeChatAPIServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.lxh.wechat.wechatapi.HttpJsonRequestService;
+import com.lxh.wechat.wechatapi.HttpJsonRequestServiceImpl;
+import com.lxh.wechat.wechatapi.WeChatAPIService;
+import com.lxh.wechat.wechatapi.WeChatAPIServiceImpl;
 
 /**
  * Created by i317632 on 2018/8/7.

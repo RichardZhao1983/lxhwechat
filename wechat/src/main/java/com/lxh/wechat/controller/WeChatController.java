@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lxh.wechat.services.WeChatAPIService;
 import com.lxh.wechat.util.HttpClientUtils;
+import com.lxh.wechat.wechatapi.WeChatAPIService;
 
 /**
  * Created by i317632 on 2018/8/7.

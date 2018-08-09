@@ -1,9 +1,7 @@
-package com.lxh.wechat.services;
+package com.lxh.wechat.wechatapi;
 
-
-import com.lxh.wechat.model.UserInfo;
-
-
+import com.lxh.wechat.wechatapi.model.TokenInfo;
+import com.lxh.wechat.wechatapi.model.UserInfo;
 
 /**
  * The interface to send API request and get response result to WeChat server.
@@ -26,10 +24,7 @@ public interface WeChatAPIService {
 	 * @throws WeChatAPIException
 	 */
 	UserInfo getUserInfo(String code, String corpId) throws WeChatAPIException;
-	
-	public String getWeChatCode();
 
-
-
+	public TokenInfo getWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException;
 
 }

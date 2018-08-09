@@ -1,4 +1,4 @@
-package com.lxh.wechat.services;
+package com.lxh.wechat.wechatapi;
 
 
 import com.lxh.wechat.exception.WeChatIntegrationException;

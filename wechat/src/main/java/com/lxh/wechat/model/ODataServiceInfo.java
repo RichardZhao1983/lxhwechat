@@ -2,19 +2,18 @@ package com.lxh.wechat.model;
 
 import org.apache.olingo.odata2.api.edm.EdmEntityContainer;
 
+
 public class ODataServiceInfo {
 	private String service;
 	private String scope;
-	private String destination;
 	private EdmEntityContainer edmEntityContainer;
 
 	public ODataServiceInfo() {
 	}
 
-	public ODataServiceInfo(String service, String scope, String destination) {
+	public ODataServiceInfo(String service, String scope) {
 		this.service = service;
 		this.scope = scope;
-		this.destination = destination;
 	}
 
 	public String getService() {
@@ -31,14 +30,6 @@ public class ODataServiceInfo {
 
 	public void setScope(String scope) {
 		this.scope = scope;
-	}
-
-	public String getDestination() {
-		return destination;
-	}
-
-	public void setDestination(String destination) {
-		this.destination = destination;
 	}
 
 	public EdmEntityContainer getEdmEntityContainer() {

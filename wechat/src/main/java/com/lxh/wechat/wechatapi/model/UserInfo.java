@@ -1,7 +1,9 @@
-package com.lxh.wechat.model;
+package com.lxh.wechat.wechatapi.model;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.lxh.wechat.model.WeChatAPIResponse;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
