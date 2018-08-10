@@ -35,7 +35,7 @@ public class ODataServiceBasicImpl implements ODataService {
 	private final static Logger LOGGER = LoggerFactory.getLogger(ODataServiceBasicImpl.class);
 
 	@Autowired
-	SolmanServerProperties solmanServerProperties;
+	private SolmanServerProperties solmanServerProperties;
 
 	@Override
 	public <T extends ODataSerializable> T getEntity(ODataServiceInfo oDataServiceInfo, String id, String entitySetName,

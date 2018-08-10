@@ -1,4 +1,4 @@
-package com.lxh.wechat.solmanoa2.test;
+package com.lxh.wechat.exception;
 
 public class SAMLException extends Exception {
     public SAMLException(Exception rootException) {

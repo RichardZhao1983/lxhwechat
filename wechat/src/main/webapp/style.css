@@ -1,0 +1,43 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+.logonFormBlock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  transform: translate(-50%, -50%);
+}
+.inputBlock {
+  height: 40px;
+  line-height: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border: 1px #333 solid;
+  margin-top: 8px;
+}
+.label {
+  display: inline-block;
+  width: 120px;
+}
+.inputField {
+  margin: 0;
+  height: 40px;
+  width: 240px;
+  padding: 0px;
+  border: none;
+  float: right;
+}
+.logonButton {
+  margin-top: 8px;
+  height: 40px;
+  line-height: 40px;
+  width: 400px;
+  background-color: #009de0;
+  border-color: #008bc7;
+  color: #ffffff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  vertical-align: baseline;
+  cursor: pointer;
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Logon</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="logonFormBlock">
+      <form class="logonForm" action="/solman/wechat/sapUserBasicLogon" method="post">
+        <div class="inputBlock">
+          <label class="label" for="user">User </label>
+          <input class="inputField" type="text" name="user" id="user" value="" />
+        </div>
+        <div class="inputBlock">
+          <label class="label" for="password">Password </label>
+          <input class="inputField" type="password" name="password" id="password" value="" />
+        </div>
+        <button type="submit" class="logonButton" name="button">Logon</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.lxh.wechat.util.Util;
 import com.lxh.wechat.wechatapi.model.TokenInfo;
 import com.lxh.wechat.wechatapi.model.UserInfo;
-import com.sap.smi.wechat.repository.SuiteConfigRepository;
 
 @Service
 public class WeChatAPIServiceImpl implements WeChatAPIService {

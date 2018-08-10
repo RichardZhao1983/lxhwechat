@@ -1,6 +1,8 @@
-package com.lxh.wechat.solmanoa2.test;
+package com.lxh.wechat.security;
 
 import java.util.Properties;
+
+import com.lxh.wechat.exception.SAMLException;
 
 
 public interface SamlTokenFactory {
