@@ -2,10 +2,10 @@ package com.lxh.wechat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@Controller
+@EnableScheduling
 public class WechatApplication {
 
 	public static void main(String[] args) {

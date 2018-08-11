@@ -16,14 +16,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lxh.wechat.config.SamlProperties;
 import com.lxh.wechat.controller.AuthController;
 import com.lxh.wechat.exception.OAuthBackendException;
 import com.lxh.wechat.exception.OAuthException;
 import com.lxh.wechat.security.SAMLAssertionService;
-import com.lxh.wechat.security.SamlTokenFactory;
 import com.lxh.wechat.wechatapi.model.TokenInfo;
 
 public class SolmanAccessTokenGetProcessor implements Callable<TokenInfo> {

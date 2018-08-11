@@ -1,11 +1,18 @@
 package com.lxh.wechat.wechatapi;
 
-import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.collections.MapUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.lxh.wechat.config.AppConfig;
+import com.lxh.wechat.util.HttpClientUtils;
 import com.lxh.wechat.util.Util;
 import com.lxh.wechat.wechatapi.model.TokenInfo;
 import com.lxh.wechat.wechatapi.model.UserInfo;
@@ -13,14 +20,10 @@ import com.lxh.wechat.wechatapi.model.UserInfo;
 @Service
 public class WeChatAPIServiceImpl implements WeChatAPIService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(WeChatAPIServiceImpl.class);
+	public static String BASE_URL = "https://qyapi.weixin.qq.com/cgi-bin";
 
 	@Autowired
 	private HttpJsonRequestService httpJsonReqService;
-
-	@Override
-	public void ticketUpdated() {
-
-	}
 
 	@Override
 	public UserInfo getUserInfo(String code, String corpId)
@@ -47,16 +50,19 @@ public class WeChatAPIServiceImpl implements WeChatAPIService {
 		return userInfo;
 	}
 
-	public TokenInfo getWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException {
+	private String appendURIWithAccessToken(String uri, String corpId, String corpsecret) throws WeChatAPIException {
+		return Util.addParameterForURI(uri, "access_token", this.getWeChatAccessToken(corpId, corpsecret).getToken());
+	}
+
+	@Override
+	public TokenInfo createNewWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException {
 		// db get wechat_access_token
 		try {
-			String uri = "/gettoken";
-			String method = "GET";
-			JSONObject content = new JSONObject();
-			JSONObject result = null;
-			content.put("corpid", corpId);
-			content.put("corpsecret", corpsecret);
-			result = this.httpJsonReqService.requestGetJsonResponse(uri, method, content);
+			String url = "/gettoken";
+			url = BASE_URL + url;
+			url = Util.addParameterForURI(url, "corpId", corpId);
+			url = Util.addParameterForURI(url, "corpsecret", corpsecret);
+			JSONObject result = HttpClientUtils.httpGet(url);
 			TokenInfo newTokenInfo = new TokenInfo(result.getString("access_token"), result.getLong("expires_in"));
 			return newTokenInfo;
 		} catch (Exception e) {
@@ -65,8 +71,34 @@ public class WeChatAPIServiceImpl implements WeChatAPIService {
 
 	}
 
-	private String appendURIWithAccessToken(String uri, String corpId, String corpsecret) throws WeChatAPIException {
-		return Util.addParameterForURI(uri, "access_token", this.getWeChatAccessToken(corpId, corpsecret).getToken());
+	@Override
+	public TokenInfo getWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException {
+		Map<String, TokenInfo> tempMap = AppConfig.weChatTokenMap;
+		TokenInfo token = null;
+		if (MapUtils.isEmpty(tempMap)) {
+			token = this.createNewWeChatAccessToken(corpId, corpsecret);
+			tempMap.put(AppConfig.APP_ID, token);
+		} else {
+			token = tempMap.get(AppConfig.APP_ID);
+			if (token.isExpired()) {
+				token = this.createNewWeChatAccessToken(corpId, corpsecret);
+				tempMap.put(AppConfig.APP_ID, token);
+			}
+		}
+		return token;
 	}
 
+	@Override
+	public boolean isWeChatAccessTokenExpired() {
+		Map<String, TokenInfo> tempMap = AppConfig.weChatTokenMap;
+		if (MapUtils.isEmpty(tempMap)) {
+			return true;
+		}
+
+		if (tempMap.get(AppConfig.APP_ID).isExpired()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

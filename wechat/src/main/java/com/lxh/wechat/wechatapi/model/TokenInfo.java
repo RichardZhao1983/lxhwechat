@@ -2,7 +2,6 @@ package com.lxh.wechat.wechatapi.model;
 
 import java.util.Date;
 
-
 public class TokenInfo {
 
 	private String token;
@@ -19,11 +18,11 @@ public class TokenInfo {
 	 */
 	public TokenInfo(String token, long expireIn) {
 		this.token = token;
-		this.expireIn = expireIn;
+		this.expireIn = expireIn - 1000;
 		this.expireTimeStamp = new Date().getTime() + expireIn * 1000;
 	}
 
-	public boolean expired() {
+	public boolean isExpired() {
 		if (this.expireTimeStamp > 0 && new Date().getTime() < this.expireTimeStamp) {
 			return false;
 		}

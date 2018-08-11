@@ -13,9 +13,6 @@ public interface WeChatAPIService {
 	static int ERROR_ACCESS_TOKEN_EXPIRED = 42001;
 	static int ERROR_INVALID_PERMANENT_CODE = 40084;
 
-	// TODO change to an observer
-	void ticketUpdated();
-
 	/**
 	 * WeChat User Identification
 	 * 
@@ -25,6 +22,10 @@ public interface WeChatAPIService {
 	 */
 	UserInfo getUserInfo(String code, String corpId) throws WeChatAPIException;
 
+	public TokenInfo createNewWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException;
+
 	public TokenInfo getWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException;
+
+	public boolean isWeChatAccessTokenExpired();
 
 }
