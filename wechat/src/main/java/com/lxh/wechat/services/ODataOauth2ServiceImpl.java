@@ -26,19 +26,13 @@ import com.lxh.wechat.model.ODataSerializable;
 import com.lxh.wechat.model.ODataServiceInfo;
 import com.lxh.wechat.util.Util;
 
-@Service("oDataService")
-public class ODataServiceImpl implements ODataService {
+@Service("oDataOauth2Service")
+public class ODataOauth2ServiceImpl implements ODataService {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(ODataServiceImpl.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(ODataOauth2ServiceImpl.class);
 	
 	@Autowired
 	SolmanServerProperties solmanServerProperties;
-
-	// @Autowired
-	// private TenantResourceService tenantResourceService;
-	//
-	// @Autowired
-	// private DestinationService destinationService;
 
 	@Override
 	public <T extends ODataSerializable> T getEntity(ODataServiceInfo oDataServiceInfo, String id, String entitySetName,

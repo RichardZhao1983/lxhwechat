@@ -50,7 +50,7 @@ public class ODataServiceBasicImpl implements ODataService {
 			String param = "CorpId='" + corpId + "'," + "WxUser='" + id + "'";
 			String url = solmanServerProperties.getDomain() + solmanServerProperties.getOdataPath()
 					+ oDataServiceInfo.getService() + "/" + entitySetName + "(" + param + ")?$format=json";
-			LOGGER.info(url);
+			LOGGER.debug(url);
 			HttpStatusCodes statusCode = null;
 			String responseString = null;
 			HttpResponse httpResponse = HttpClientUtils.httpGetResponse(url, header);

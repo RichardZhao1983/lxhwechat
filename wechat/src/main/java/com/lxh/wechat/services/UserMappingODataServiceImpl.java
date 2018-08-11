@@ -30,8 +30,8 @@ public class UserMappingODataServiceImpl implements UserMappingODataService {
 	@Resource(name = "oDataBasicService")
 	private ODataService oDataBasicService;
 
-	@Resource(name = "oDataService")
-	private ODataService oDataService;
+	@Resource(name = "oDataOauth2Service")
+	private ODataService oDataOauth2Service;
 	
 	private ODataServiceInfo oDataServiceInfo;
 
@@ -57,7 +57,7 @@ public class UserMappingODataServiceImpl implements UserMappingODataService {
 	@Override
 	public List<UserMappingEntity> getAllUserMapping() throws ODataServiceException {
 		updateODataServiceInfo();
-		return oDataService.getEntitySet(oDataServiceInfo, ENTITY_SET, null, UserMappingEntity.class);
+		return oDataOauth2Service.getEntitySet(oDataServiceInfo, ENTITY_SET, null, UserMappingEntity.class);
 	}
 
 	@Override
