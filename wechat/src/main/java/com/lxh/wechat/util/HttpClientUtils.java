@@ -3,6 +3,7 @@ package com.lxh.wechat.util;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.httpclient.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -116,9 +117,12 @@ public class HttpClientUtils {
 		CloseableHttpClient client = HttpClients.createDefault();
 
 		HttpGet request = new HttpGet(url);
-		for (String name : headers.keySet()) {
-			request.setHeader(name, headers.get(name));
+		if (MapUtils.isNotEmpty(headers)) {
+			for (String name : headers.keySet()) {
+				request.setHeader(name, headers.get(name));
+			}
 		}
+
 		request.setConfig(requestConfig);
 		CloseableHttpResponse response = null;
 		try {

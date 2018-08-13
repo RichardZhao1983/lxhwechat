@@ -1,7 +1,7 @@
 package com.lxh.wechat.wechatapi;
 
-import com.lxh.wechat.wechatapi.model.TokenInfo;
 import com.lxh.wechat.wechatapi.model.UserInfo;
+import com.lxh.wechat.wechatapi.model.WeChatTokenInfo;
 
 /**
  * The interface to send API request and get response result to WeChat server.
@@ -20,11 +20,11 @@ public interface WeChatAPIService {
 	 * @return
 	 * @throws WeChatAPIException
 	 */
-	UserInfo getUserInfo(String code, String corpId) throws WeChatAPIException;
+	UserInfo getUserInfo(String code) throws WeChatAPIException;
 
-	public TokenInfo createNewWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException;
+	public WeChatTokenInfo createNewWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException;
 
-	public TokenInfo getWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException;
+	public WeChatTokenInfo getWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException;
 
 	public boolean isWeChatAccessTokenExpired();
 

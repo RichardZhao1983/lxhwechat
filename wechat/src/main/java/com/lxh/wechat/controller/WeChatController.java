@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lxh.wechat.util.HttpClientUtils;
+import com.alibaba.fastjson.JSONObject;
+import com.lxh.wechat.wechatapi.WeChatAPIException;
 import com.lxh.wechat.wechatapi.WeChatAPIService;
+import com.lxh.wechat.wechatapi.model.UserInfo;
 
 /**
  * Created by i317632 on 2018/8/7.
@@ -21,21 +23,22 @@ import com.lxh.wechat.wechatapi.WeChatAPIService;
 public class WeChatController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(WeChatController.class);
-	public final static String REDIRECT_URI = "localhost:8082/getweChatCode";
-
+	
 	@Autowired
 	WeChatAPIService weChatAPIService;
 
-	@GetMapping("/weChatLogon")
-	public void weChatUserlogon(HttpServletResponse response) throws IOException {
-    	String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=CORPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&agentid=AGENTID&state=STATE#wechat_redirect";	
-		HttpClientUtils.httpGet(url);
-    	response.sendRedirect("getweChatCode");
+	@GetMapping("/weChatUserInfo")
+	public String getSolmanAccessToken(@RequestParam("code") String code, HttpServletResponse response)
+			throws IOException {
+		try {
+			UserInfo userInfo = weChatAPIService.getUserInfo(code);
+			JSONObject result = new JSONObject();
+			result.put("wechat_user", userInfo.getUserId());
+			return result.toString();
+		} catch (WeChatAPIException e) {
+			LOGGER.error("WeChatAPIException in getAccesToken", e);
+			response.setStatus(403);
+			return "Failed to authenticate WeChat user";
+		}
 	}
-
-	@GetMapping("/weChatCode")
-	public String getWeChatCode(@RequestParam("code") String code) throws IOException {
-		return code;
-	}
-
 }

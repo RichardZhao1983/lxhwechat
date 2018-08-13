@@ -8,17 +8,9 @@ public class TokenInfo {
 	private long expireTimeStamp;
 	private long expireIn;
 
-	/**
-	 * Constructor, transform the expireIn to expireTimeStamp
-	 * 
-	 * @param token
-	 *            String representation
-	 * @param expireIn
-	 *            (seconds)
-	 */
 	public TokenInfo(String token, long expireIn) {
 		this.token = token;
-		this.expireIn = expireIn - 1000;
+		this.expireIn = expireIn;
 		this.expireTimeStamp = new Date().getTime() + expireIn * 1000;
 	}
 

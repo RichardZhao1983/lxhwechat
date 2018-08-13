@@ -12,20 +12,24 @@ import org.springframework.stereotype.Component;
 
 import com.lxh.wechat.wechatapi.WeChatAPIException;
 import com.lxh.wechat.wechatapi.WeChatAPIService;
-import com.lxh.wechat.wechatapi.model.TokenInfo;
+import com.lxh.wechat.wechatapi.model.WeChatTokenInfo;
 
 /**
  * Created by i317632 on 2018/8/7.
  */
 @Component
-public class AppConfig implements ApplicationRunner{
+public class AppConfig implements ApplicationRunner {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AppConfig.class);
 
 	public static final int MAP_SIZE = 1;
-	public static Map<String, TokenInfo> weChatTokenMap = new ConcurrentHashMap<String, TokenInfo>(MAP_SIZE);
+	public static Map<String, WeChatTokenInfo> weChatTokenMap = new ConcurrentHashMap<String, WeChatTokenInfo>(
+			MAP_SIZE);
 	public static final String APP_ID = "ITSM";
 	public static final String CORP_ID = "wx8f5ad82327627866";
 	public static final String SCRECT = "dPROB_f1sk0nZPfXOan6rjEMbDTDNld-R3oLjKQ_p_8";
+	
+	public static final String AGENT_ID = "11";
+	public static final String SCOPE = "snsapi_base";
 
 	@Autowired
 	private WeChatAPIService weChatAPIService;
@@ -36,7 +40,7 @@ public class AppConfig implements ApplicationRunner{
 
 	private void initWeChatTokenMap() {
 		try {
-			TokenInfo newToken = weChatAPIService.createNewWeChatAccessToken(CORP_ID, SCRECT);
+			WeChatTokenInfo newToken = weChatAPIService.createNewWeChatAccessToken(CORP_ID, SCRECT);
 			LOGGER.info(newToken.getToken());
 			weChatTokenMap.put(APP_ID, newToken);
 		} catch (WeChatAPIException e) {
@@ -46,9 +50,7 @@ public class AppConfig implements ApplicationRunner{
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		initWeChatTokenMap();
+		// initWeChatTokenMap();
 	}
-	
-	
 
 }

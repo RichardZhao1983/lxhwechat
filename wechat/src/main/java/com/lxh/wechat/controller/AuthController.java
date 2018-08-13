@@ -35,51 +35,6 @@ public class AuthController {
 	@Autowired
 	private SolmanOAuthService solmanOAuthService;
 
-	@GetMapping("/solmanAccessToken")
-	public String getSolmanAccessToken(@RequestParam("code") String code, HttpServletResponse response)
-			throws IOException {
-		// @RequestParam("corpId") String corpId, @RequestParam("code") String
-		// @RequestParam("scope") String scope,
-		String corpId = "wx8f5ad82327627866";
-		String scope = "snsapi_base";
-		String screct = "dPROB_f1sk0nZPfXOan6rjEMbDTDNld-R3oLjKQ_p_8";
-		String agentId = "11";
-
-		try {
-			UserInfo userInfo = weChatAPIService.getUserInfo(code, corpId);
-			String solmanUserId = userMappingODataService.getSolmanUserIdByWeChatUserId("richard");
-			TokenInfo accessToken = solmanOAuthService.getAccessToken("SAP_RICHARD", scope);
-			JSONObject result = new JSONObject();
-			result.put("user_id", solmanUserId);
-			result.put("wechat_user", userInfo.getUserId());
-			result.put("accessToken", accessToken.getToken());
-			result.put("expires_in", accessToken.getExpireIn());
-			return result.toString();
-		} catch (WeChatAPIException e) {
-			LOGGER.error("WeChatAPIException in getAccesToken", e);
-			response.setStatus(403);
-			return "Failed to authenticate WeChat user";
-		} catch (ODataServiceException e) {
-			LOGGER.error("WeChatAPIException in ODataServiceException", e);
-			response.setStatus(403);
-			return "Failed to find a Solman user for this WeChat user";
-		} catch (OAuthException e) {
-			LOGGER.error("WeChatAPIException in ODataServiceException", e);
-			response.setStatus(403);
-			return "Failed to find a Solman user for this WeChat user";
-		}
-
-	}
-
-	@GetMapping("/weChatUserInfo")
-	public String getWechatUserInfo(@RequestParam("code") String code) throws WeChatAPIException {
-		String corpId = "wx8f5ad82327627866";
-		UserInfo userInfo = weChatAPIService.getUserInfo(code, corpId);
-		JSONObject result = new JSONObject();
-		result.put("wechat_user", userInfo.getUserId());
-		return result.toString();
-	}
-
 	@GetMapping("/testOdataService")
 	public String testOdataService() throws ODataServiceException {
 		String solmanUserId = userMappingODataService.getSolmanUserIdByWeChatUserId("richard");
@@ -90,8 +45,9 @@ public class AuthController {
 
 	@GetMapping("/testSolmanToken")
 	public String testSolmanToken() throws OAuthException {
-		String scope = "ZLOCAL_TEST_SRV_0001";
-		TokenInfo accessToken = solmanOAuthService.getAccessToken("SAP_RICHARD", scope);
+		// String scope = "ZLOCAL_TEST_SRV_0001";
+		String scope = "AI_CRM_GW_CREATE_INCIDENT_SRV_0001";
+		TokenInfo accessToken = solmanOAuthService.getAccessToken("SAP_SUE", scope);
 		JSONObject result = new JSONObject();
 		result.put("accessToken", accessToken.getToken());
 		result.put("expires_in", accessToken.getExpireIn());

@@ -15,23 +15,23 @@ import com.lxh.wechat.wechatapi.WeChatAPIService;
 
 @Component
 public class WechatTokenRefreshJob {
-	private static final Logger LOGGER = LoggerFactory.getLogger(WechatTokenRefreshJob.class);
-
-	@Autowired
-	private WeChatAPIService weChatAPIService;
-
-	@Scheduled(cron = "0 0/1 * * * ?")
-	public void refreshWechatToken() {
-		if (weChatAPIService.isWeChatAccessTokenExpired()) {
-			try {
-				weChatAPIService.createNewWeChatAccessToken(AppConfig.CORP_ID, AppConfig.SCRECT);
-				LOGGER.debug("wechat access_token has been refresh successful at "
-						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
-			} catch (WeChatAPIException e) {
-				e.printStackTrace();
-			}
-		} else {
-			LOGGER.info("wechat access_token is not expire");
-		}
-	}
+//	private static final Logger LOGGER = LoggerFactory.getLogger(WechatTokenRefreshJob.class);
+//
+//	@Autowired
+//	private WeChatAPIService weChatAPIService;
+//
+//	@Scheduled(cron = "0 0/1 * * * ?")
+//	public void refreshWechatToken() {
+//		if (weChatAPIService.isWeChatAccessTokenExpired()) {
+//			try {
+//				weChatAPIService.createNewWeChatAccessToken(AppConfig.CORP_ID, AppConfig.SCRECT);
+//				LOGGER.debug("wechat access_token has been refresh successful at "
+//						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
+//			} catch (WeChatAPIException e) {
+//				e.printStackTrace();
+//			}
+//		} else {
+//			LOGGER.info("wechat access_token is not expire");
+//		}
+//	}
 }
