@@ -1,7 +1,5 @@
 package com.lxh.wechat.wechatapi;
 
-import java.util.Map;
-
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +10,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.lxh.wechat.config.AppConfig;
 import com.lxh.wechat.util.HttpClientUtils;
 import com.lxh.wechat.util.Util;
-import com.lxh.wechat.wechatapi.model.TokenInfo;
 import com.lxh.wechat.wechatapi.model.UserInfo;
 import com.lxh.wechat.wechatapi.model.WeChatTokenInfo;
 
@@ -25,12 +22,14 @@ public class WeChatAPIServiceImpl implements WeChatAPIService {
 	private HttpJsonRequestService httpJsonReqService;
 
 	@Override
-	public UserInfo getUserInfo(String code) throws WeChatAPIInvalidCorpTokenException, WeChatAPIException {
+	public UserInfo getUserInfo(String code, String appId)
+			throws WeChatAPIInvalidCorpTokenException, WeChatAPIException {
 		UserInfo userInfo = null;
 		try {
 			String uri = "/user/getuserinfo";
 			String method = "GET";
-			uri = this.appendURIWithAccessToken(uri, AppConfig.CORP_ID, AppConfig.SCRECT) + "&code=" + code;
+			String weChatScrect = AppConfig.weChatAppMap.get(appId).getSecret();
+			uri = this.appendURIWithAccessToken(uri, appId, weChatScrect) + "&code=" + code;
 			String response = httpJsonReqService.requestGetStrResponse(uri, method, null);
 			userInfo = Util.getObjectFromJSONString(response, UserInfo.class);
 		} catch (Exception e) {
@@ -51,9 +50,9 @@ public class WeChatAPIServiceImpl implements WeChatAPIService {
 	}
 
 	@Override
-	public WeChatTokenInfo createNewWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException {
-		// db get wechat_access_token
+	public WeChatTokenInfo createNewWeChatAccessToken(String appId, String corpsecret) throws WeChatAPIException {
 		try {
+			String corpId = AppConfig.weChatAppMap.get(appId).getCorpId();
 			String url = "/gettoken";
 			url = BASE_URL + url;
 			url = Util.addParameterForURI(url, "corpId", corpId);
@@ -69,33 +68,60 @@ public class WeChatAPIServiceImpl implements WeChatAPIService {
 	}
 
 	@Override
-	public WeChatTokenInfo getWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException {
-		Map<String, WeChatTokenInfo> tempMap = AppConfig.weChatTokenMap;
+	public WeChatTokenInfo getWeChatAccessToken(String appId, String corpsecret) throws WeChatAPIException {
+		AppConfig appConfig =  AppConfig.getInstance();
+		
 		WeChatTokenInfo token = null;
-		if (MapUtils.isEmpty(tempMap)) {
-			token = this.createNewWeChatAccessToken(corpId, corpsecret);
-			tempMap.put(AppConfig.APP_ID, token);
+		if (MapUtils.isEmpty(AppConfig.weChatTokenMap)) {
+			token = this.createNewWeChatAccessToken(appId, corpsecret);
+			appConfig.saveWeChatToken(appId, token);
 		} else {
-			token = tempMap.get(AppConfig.APP_ID);
+			token = appConfig.getWeChatToken(appId);
 			if (token.isExpired()) {
-				token = this.createNewWeChatAccessToken(corpId, corpsecret);
-				tempMap.put(AppConfig.APP_ID, token);
+				token = this.createNewWeChatAccessToken(appId, corpsecret);
+				appConfig.saveWeChatToken(appId, token);
 			}
 		}
 		return token;
 	}
 
 	@Override
-	public boolean isWeChatAccessTokenExpired() {
-		Map<String, WeChatTokenInfo> tempMap = AppConfig.weChatTokenMap;
-		if (MapUtils.isEmpty(tempMap)) {
+	public boolean isWeChatAccessTokenExpired(String appId) {
+		AppConfig appConfig =  AppConfig.getInstance();
+		if (MapUtils.isEmpty(AppConfig.weChatTokenMap)) {
 			return true;
 		}
 
-		if (tempMap.get(AppConfig.APP_ID).isExpired()) {
+		if (appConfig.getWeChatToken(appId).isExpired()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+	// public void sendMessage(ResponseMessage message) throws
+	// WeChatAPIInvalidCorpTokenException, WeChatAPIException {
+	// try {
+	// String uri = "/message/send";
+	// String method = "POST";
+	// WeChatTokenInfo weChatTokenInfo =
+	// this.getWeChatAccessToken(AppConfig.CORP_ID, AppConfig.SCRECT);
+	// uri = Util.addParameterForURI(uri, "access_token",
+	// weChatTokenInfo.getToken());
+	//
+	// JSONObject result = httpJsonReqService.requestGetJsonResponse(uri,
+	// method, message.toJSON());
+	// if (result.getIntValue("errcode") != 0) {
+	// if (result.getIntValue("errcode") == ERROR_INVALID_ACCESS_TOKEN) {
+	// throw new WeChatAPIInvalidCorpTokenException();
+	// }
+	// throw new WeChatAPIException(result.getString("errmsg"));
+	// }
+	//
+	// } catch (WeChatAPIInvalidCorpTokenException e) {
+	// throw e;
+	// } catch (Exception e) {
+	// throw new WeChatAPIException("Exception in sendMessage", e);
+	// }
+	// }
 }

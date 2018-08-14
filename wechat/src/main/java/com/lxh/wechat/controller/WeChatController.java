@@ -23,15 +23,15 @@ import com.lxh.wechat.wechatapi.model.UserInfo;
 public class WeChatController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(WeChatController.class);
-	
+
 	@Autowired
 	WeChatAPIService weChatAPIService;
 
 	@GetMapping("/weChatUserInfo")
-	public String getSolmanAccessToken(@RequestParam("code") String code, HttpServletResponse response)
-			throws IOException {
+	public String getSolmanAccessToken(@RequestParam("code") String code, @RequestParam("sapAppl") String sapAppl,
+			HttpServletResponse response) throws IOException {
 		try {
-			UserInfo userInfo = weChatAPIService.getUserInfo(code);
+			UserInfo userInfo = weChatAPIService.getUserInfo(code, sapAppl);
 			JSONObject result = new JSONObject();
 			result.put("wechat_user", userInfo.getUserId());
 			return result.toString();

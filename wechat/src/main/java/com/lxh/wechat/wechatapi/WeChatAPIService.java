@@ -20,12 +20,12 @@ public interface WeChatAPIService {
 	 * @return
 	 * @throws WeChatAPIException
 	 */
-	UserInfo getUserInfo(String code) throws WeChatAPIException;
+	UserInfo getUserInfo(String code, String appId) throws WeChatAPIException;
 
-	public WeChatTokenInfo createNewWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException;
+	public WeChatTokenInfo createNewWeChatAccessToken(String appId, String corpsecret) throws WeChatAPIException;
 
-	public WeChatTokenInfo getWeChatAccessToken(String corpId, String corpsecret) throws WeChatAPIException;
+	public WeChatTokenInfo getWeChatAccessToken(String appId, String corpsecret) throws WeChatAPIException;
 
-	public boolean isWeChatAccessTokenExpired();
+	public boolean isWeChatAccessTokenExpired(String appId);
 
 }

@@ -1,14 +1,9 @@
 package com.lxh.wechat.controller;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -16,10 +11,8 @@ import com.lxh.wechat.exception.OAuthException;
 import com.lxh.wechat.exception.ODataServiceException;
 import com.lxh.wechat.security.SolmanOAuthService;
 import com.lxh.wechat.services.UserMappingODataService;
-import com.lxh.wechat.wechatapi.WeChatAPIException;
 import com.lxh.wechat.wechatapi.WeChatAPIService;
 import com.lxh.wechat.wechatapi.model.TokenInfo;
-import com.lxh.wechat.wechatapi.model.UserInfo;
 
 @RestController
 public class AuthController {
