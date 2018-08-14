@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import com.lxh.wechat.wechatapi.WeChatAPIException;
 import com.lxh.wechat.wechatapi.WeChatAPIService;
 import com.lxh.wechat.wechatapi.model.WeChatTokenInfo;
-
 /**
  * Created by i317632 on 2018/8/7.
  */
