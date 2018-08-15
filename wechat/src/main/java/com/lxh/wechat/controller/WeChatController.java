@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,13 @@ public class WeChatController {
 	@GetMapping("/weChatUserInfo")
 	public String getSolmanAccessToken(@RequestParam("code") String code, @RequestParam("sapAppl") String sapAppl,
 			HttpServletResponse response) throws IOException {
+		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(sapAppl)) {
+			response.setStatus(403);
+			return "Invalid request parameter";
+		}
+
 		try {
-			UserInfo userInfo = weChatAPIService.getUserInfo(code, sapAppl);
+			UserInfo userInfo = weChatAPIService.getUserInfo(code, sapAppl.toUpperCase());
 			JSONObject result = new JSONObject();
 			result.put("wechat_user", userInfo.getUserId());
 			return result.toString();
